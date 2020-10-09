@@ -2,11 +2,12 @@
 
 file="$1"
 
-if [ $# -ne 1 ] || ! [ -f "$file" ]; then
+if [ $# -lt 1 ] || ! [ -f "$file" ]; then
 	echo "Usage: $0 <input_file> [<start_at>] [<additional_ffmpeg_args>]"
 	echo -e "\tReencodes <input_file> to reduce filesize, copying all tracks"
 	echo -e "\tMay not accept unix or windows style paths (not implemented)"
-	echo -e "\tOptionally cut everything before the timestamp <start_at> (frame-accurate, default = 00:00:00.000)"
+	echo -e "\tOptionally cut everything before the timestamp <start_at> (hh:mm:ss.xxx)."
+	echo -e "\t\tTo pass additional args without cutting, pass an invalid format, e.g. empty string"
 	exit
 fi
 
@@ -36,3 +37,5 @@ fi
 
 mv -n "$file" "$bak"
 mv -n "$temp" "${file%.*}.mkv"
+
+read -p "Finished converting, press any button ..."
