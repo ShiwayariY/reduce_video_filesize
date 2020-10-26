@@ -35,7 +35,18 @@ if ! [ -f "$temp" ]; then
 	exit
 fi
 
-mv -n "$file" "$bak"
-mv -n "$temp" "${file%.*}.mkv"
+out="${file%.*}.mkv"
 
-read -p "Finished converting, press any button ..."
+mv -n "$file" "$bak"
+mv -n "$temp" "$out"
+
+size_diff=$(($(du "$bak" | awk '{print $1}')-$(du "$out" | awk '{print $1}')))
+echo -e "
+Finished converting
+\t$(basename "$(cygpath "$file")")
+Size reduced by
+\t$size_diff k"
+read -p "Open directory (y)? " ans
+if [[ "$ans" == "y" ]]; then
+	cygstart "$(dirname "$(cygpath "$out")")"
+fi
