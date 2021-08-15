@@ -52,7 +52,8 @@ if ! [ -f "$temp" ]; then
 	exit
 fi
 
-out="${file%.*}.mkv"
+crc="$(rhash -C "$temp" | tail -1 | awk '{print $NF}')"
+out="$(echo "${file%.*}.mkv" | sed -r "s/[[][0-9A-F]{8}[]]/[${crc}]/")"
 
 mv -n "$file" "$bak"
 mv -n "$temp" "$out"
