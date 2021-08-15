@@ -40,8 +40,8 @@ file="$1"
 bak="${file%.*}.bak.${file##*.}"
 temp="${file%.*}.temp.mkv"
 
-if [ -f "$bak" ] || [ -f "$temp" ]; then
-	echo ".bak or .temp file already exists ... exiting"
+if [[ -f "$bak" ]] || [[ -f "$temp" ]]; then
+	echo "Error: .bak or .temp file already exists"
 	exit
 fi
 
